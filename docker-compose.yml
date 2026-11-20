@@ -1,0 +1,25 @@
+services:
+  backend:
+    build: ./backend
+    container_name: hotel-backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: sqlite:////data/hotel.db
+      SEED: "1"
+    volumes:
+      - ./backend:/app          # el código se recarga al guardar
+      - hotel-data:/data        # la base SQLite sobrevive a los reinicios
+
+  frontend:
+    build: ./frontend
+    container_name: hotel-frontend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend:/site
+    depends_on:
+      - backend
+
+volumes:
+  hotel-data:
