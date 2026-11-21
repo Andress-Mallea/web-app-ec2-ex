@@ -2,7 +2,7 @@
 
 Sistema de recepción de un hotel: habitaciones, huéspedes y reservas.
 
-- `backend/`: API REST en Flask con arquitectura **MVC** (models, views, controllers) y SQLite.
+- `backend/`: API REST en Flask con **arquitectura por capas** (`routes -> services -> repositories -> models`) y SQLite.
 - `frontend/`: HTML, CSS y JavaScript sin frameworks.
 
 Todo corre con Docker Compose: el backend usa el servidor de desarrollo de Flask y el frontend el servidor estático de Python. No hay nginx ni gunicorn.
@@ -38,22 +38,38 @@ docker compose exec backend pytest -q
 ## Estructura (MVC)
 
 ```
+REGLAS.md                      reglas de negocio del hotel
 backend/
 ├── run.py                     punto de entrada (flask --app run:app)
 ├── app/
-│   ├── __init__.py            create_app: config, CORS, blueprints, seed
-│   ├── config.py
+│   ├── __init__.py            create_app: composición de capas, CORS, blueprints y manejo de errores
+│   ├── config.py              configuración de Flask y SQLAlchemy
+│   ├── errors.py              excepciones de dominio (400, 404, 409, 422)
 │   ├── seed.py                datos de ejemplo
-│   ├── models/                M: tablas con Flask-SQLAlchemy
-│   ├── views/                 V: cómo se presenta cada modelo en JSON
-│   └── controllers/           C: blueprints con las rutas
+│   ├── routes/                presentación: blueprints HTTP y armado de DTOs
+│   ├── services/              lógica de negocio: casos de uso, 10 reglas, DTOs y Strategy de precios
+│   ├── repositories/          acceso a datos: consultas SQLAlchemy y db.session
+│   ├── models/                modelos: entidades SQLAlchemy y mapeo a tablas
+│   └── views/                 serializadores JSON (contrato con el frontend)
 └── tests/
+    ├── test_api.py            pruebas base de la API
+    └── test_business_rules.py pruebas de las 10 reglas de negocio
 frontend/
 ├── index.html
 ├── style.css
 └── app.js
 ```
+El backend organiza sus dependencias en una sola dirección (routes -> services -> repositories -> models):
 
+Presentación (routes/): lee la petición HTTP, arma DTOs, llama al servicio y devuelve JSON; no usa db.session ni Model.query.
+
+Servicios (services/): concentra los casos de uso, las 10 reglas de negocio (REGLAS.md), los DTOs (dto.py) y el patrón Strategy de tarifas (pricing.py); nunca importa Flask.
+
+Repositorios (repositories/): encapsula todas las consultas SQLAlchemy y la persistencia, sin lógica de negocio.
+
+Modelos (models/): define las entidades y sus tablas sin conocer capas superiores.
+
+Errores (errors.py): las excepciones de dominio (BusinessRuleError, NotFoundError, ConflictError, ValidationError) se traducen a HTTP en un único errorhandler en app/__init__.py.
 ## API
 
 | Método | Ruta | Descripción |
@@ -81,4 +97,6 @@ Valores válidos:
 - `status` de reserva: `confirmed`, `checked_in`, `checked_out`, `cancelled`.
 - Fechas en formato `AAAA-MM-DD`; precios en bolivianos.
 
-Los errores se devuelven como `{ "error": "mensaje" }` con el código HTTP correspondiente.
+Los errores se devuelven como `{ "error": "mensaje" }` con el código HTTP correspondiente (422 cuando se incumple una regla de negocio; ver REGLAS.md).
+
+
