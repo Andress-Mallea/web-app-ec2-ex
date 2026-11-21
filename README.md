@@ -56,8 +56,40 @@ backend/
     └── test_business_rules.py pruebas de las 10 reglas de negocio
 frontend/
 ├── index.html
-├── style.css
-└── app.js
+└── src/
+    ├── api.js                    ← único archivo con fetch
+    ├── main.js                   ← arranque
+    ├── utils.js                  ← $, el, formatMoney
+    ├── base/
+    │   └── base.css              ← variables, reset, tipografía
+    ├── blocks/
+    │   ├── header/
+    │   │   └── header.css
+    │   ├── tabs/
+    │   │   ├── tabs.css
+    │   │   └── tabs.js
+    │   ├── page/
+    │   │   └── page.css
+    │   ├── card/
+    │   │   └── card.css
+    │   ├── form/
+    │   │   └── form.css
+    │   ├── button/
+    │   │   ├── button.css
+    │   │   └── button.js
+    │   ├── table/
+    │   │   ├── table.css
+    │   │   └── table.js
+    │   ├── badge/
+    │   │   ├── badge.css
+    │   │   └── badge.js
+    │   └── alert/
+    │       ├── alert.css
+    │       └── alert.js
+    └── features/
+        ├── rooms.js
+        ├── guests.js
+        └── reservations.js
 ```
 El backend organiza sus dependencias en una sola dirección (routes -> services -> repositories -> models):
 
