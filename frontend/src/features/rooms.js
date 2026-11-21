@@ -26,8 +26,9 @@ export async function loadRooms() {
             action: "toggle-maintenance",
             id: r.id,
             modifier: "neutral",
+            mix: "table__action--toggle",
             data: { status: r.status },
-          }),
+            }),
           createActionButton({ label: "Eliminar", action: "delete-room", id: r.id, modifier: "danger" }),
         );
         tr.append(

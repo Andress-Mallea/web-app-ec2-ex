@@ -31,3 +31,6 @@
 .table__action {
   margin: 2px 4px 2px 0;
 }
+.table__action--toggle {
+  min-width: 120px;
+}

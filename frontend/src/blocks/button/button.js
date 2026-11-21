@@ -1,10 +1,11 @@
 // frontend/src/blocks/button/button.js
 import { el } from "../../utils.js";
 
-export function createActionButton({ label, action, id, modifier, data = {} }) {
+export function createActionButton({ label, action, id, modifier, mix, data = {} }) {
   const classes = ["button", "button--small"];
   if (modifier) classes.push(`button--${modifier}`);
-  classes.push("table__action");
+  classes.push("table__action"); 
+  if (mix) classes.push(mix);   
 
   const button = el("button", classes.join(" "), label);
   button.type = "button";
