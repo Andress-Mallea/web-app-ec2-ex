@@ -1,53 +1,63 @@
+<!-- frontend/index.html -->
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hotel Mirador · Recepción</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="src/base/base.css">
+  <link rel="stylesheet" href="src/blocks/header/header.css">
+  <link rel="stylesheet" href="src/blocks/tabs/tabs.css">
+  <link rel="stylesheet" href="src/blocks/page/page.css">
+  <link rel="stylesheet" href="src/blocks/card/card.css">
+  <link rel="stylesheet" href="src/blocks/form/form.css">
+  <link rel="stylesheet" href="src/blocks/button/button.css">
+  <link rel="stylesheet" href="src/blocks/table/table.css">
+  <link rel="stylesheet" href="src/blocks/badge/badge.css">
+  <link rel="stylesheet" href="src/blocks/alert/alert.css">
 </head>
 <body>
-  <header class="top">
-    <h1>Hotel Mirador</h1>
-    <p class="subtitle">Sistema de recepción</p>
+  <header class="header">
+    <h1 class="header__title">Hotel Mirador</h1>
+    <p class="header__subtitle">Sistema de recepción</p>
     <nav class="tabs">
-      <button type="button" class="active" data-tab="reservations">Reservas</button>
-      <button type="button" data-tab="rooms">Habitaciones</button>
-      <button type="button" data-tab="guests">Huéspedes</button>
+      <button type="button" class="tabs__item tabs__item--active" data-tab="reservations">Reservas</button>
+      <button type="button" class="tabs__item" data-tab="rooms">Habitaciones</button>
+      <button type="button" class="tabs__item" data-tab="guests">Huéspedes</button>
     </nav>
   </header>
 
-  <main class="container">
-    <div id="msg" class="msg" hidden></div>
+  <main class="page">
+    <div class="alert page__alert" data-js="message" hidden></div>
 
     <!-- RESERVAS -->
-    <section id="tab-reservations" class="tab">
-      <div class="box">
-        <h2>Nueva reserva</h2>
-        <form id="reservation-form" class="form">
-          <label>Habitación
-            <select name="room_id" id="reservation-room" required></select>
+    <section data-panel="reservations">
+      <div class="card page__item">
+        <h2 class="card__title">Nueva reserva</h2>
+        <form class="form" data-js="reservation-form">
+          <label class="form__field">Habitación
+            <select class="form__control" name="room_id" data-js="reservation-room" required></select>
           </label>
-          <label>Huésped
-            <select name="guest_id" id="reservation-guest" required></select>
+          <label class="form__field">Huésped
+            <select class="form__control" name="guest_id" data-js="reservation-guest" required></select>
           </label>
-          <label>Ingreso
-            <input type="date" name="check_in" required>
+          <label class="form__field">Ingreso
+            <input class="form__control" type="date" name="check_in" required>
           </label>
-          <label>Salida
-            <input type="date" name="check_out" required>
+          <label class="form__field">Salida
+            <input class="form__control" type="date" name="check_out" required>
           </label>
-          <label>Personas
-            <input type="number" name="guests_count" min="1" value="1" required>
+          <label class="form__field">Personas
+            <input class="form__control" type="number" name="guests_count" min="1" value="1" required>
           </label>
-          <button type="submit" class="btn">Reservar</button>
+          <button type="submit" class="button">Reservar</button>
         </form>
       </div>
 
-      <div class="box">
-        <div class="box-head">
-          <h2>Reservas</h2>
-          <select id="reservation-filter">
+      <div class="card page__item">
+        <div class="card__head">
+          <h2 class="card__title">Reservas</h2>
+          <select class="form__control" data-js="reservation-filter">
             <option value="">Todas</option>
             <option value="confirmed">Confirmadas</option>
             <option value="checked_in">Hospedados</option>
@@ -55,66 +65,105 @@
             <option value="cancelled">Canceladas</option>
           </select>
         </div>
-        <table>
+        <table class="table">
           <thead>
-            <tr><th>#</th><th>Hab.</th><th>Huésped</th><th>Ingreso</th><th>Salida</th><th>Noches</th><th>Personas</th><th>Total (Bs)</th><th>Estado</th><th></th></tr>
+            <tr>
+              <th class="table__header-cell">#</th>
+              <th class="table__header-cell">Hab.</th>
+              <th class="table__header-cell">Huésped</th>
+              <th class="table__header-cell">Ingreso</th>
+              <th class="table__header-cell">Salida</th>
+              <th class="table__header-cell">Noches</th>
+              <th class="table__header-cell">Personas</th>
+              <th class="table__header-cell">Total (Bs)</th>
+              <th class="table__header-cell">Estado</th>
+              <th class="table__header-cell"></th>
+            </tr>
           </thead>
-          <tbody id="reservations-body"></tbody>
+          <tbody data-js="reservations-body"></tbody>
         </table>
       </div>
     </section>
 
     <!-- HABITACIONES -->
-    <section id="tab-rooms" class="tab" hidden>
-      <div class="box">
-        <h2>Nueva habitación</h2>
-        <form id="room-form" class="form">
-          <label>Número <input name="number" required></label>
-          <label>Tipo
-            <select name="type">
+    <section data-panel="rooms" hidden>
+      <div class="card page__item">
+        <h2 class="card__title">Nueva habitación</h2>
+        <form class="form" data-js="room-form">
+          <label class="form__field">Número
+            <input class="form__control" name="number" required>
+          </label>
+          <label class="form__field">Tipo
+            <select class="form__control" name="type">
               <option value="single">Simple</option>
               <option value="double">Doble</option>
               <option value="family">Familiar</option>
               <option value="suite">Suite</option>
             </select>
           </label>
-          <label>Precio por noche (Bs) <input type="number" name="price_per_night" min="1" required></label>
-          <label>Capacidad <input type="number" name="capacity" min="1" value="2" required></label>
-          <button type="submit" class="btn">Guardar</button>
+          <label class="form__field">Precio por noche (Bs)
+            <input class="form__control" type="number" name="price_per_night" min="1" required>
+          </label>
+          <label class="form__field">Capacidad
+            <input class="form__control" type="number" name="capacity" min="1" value="2" required>
+          </label>
+          <button type="submit" class="button">Guardar</button>
         </form>
       </div>
 
-      <div class="box">
-        <h2>Habitaciones</h2>
-        <table>
-          <thead><tr><th>Número</th><th>Tipo</th><th>Precio</th><th>Capacidad</th><th>Estado</th><th></th></tr></thead>
-          <tbody id="rooms-body"></tbody>
+      <div class="card page__item">
+        <h2 class="card__title">Habitaciones</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="table__header-cell">Número</th>
+              <th class="table__header-cell">Tipo</th>
+              <th class="table__header-cell">Precio</th>
+              <th class="table__header-cell">Capacidad</th>
+              <th class="table__header-cell">Estado</th>
+              <th class="table__header-cell"></th>
+            </tr>
+          </thead>
+          <tbody data-js="rooms-body"></tbody>
         </table>
       </div>
     </section>
 
     <!-- HUÉSPEDES -->
-    <section id="tab-guests" class="tab" hidden>
-      <div class="box">
-        <h2>Nuevo huésped</h2>
-        <form id="guest-form" class="form">
-          <label>Nombre completo <input name="full_name" required></label>
-          <label>Email <input type="email" name="email" required></label>
-          <label>Documento <input name="document" required></label>
-          <button type="submit" class="btn">Guardar</button>
+    <section data-panel="guests" hidden>
+      <div class="card page__item">
+        <h2 class="card__title">Nuevo huésped</h2>
+        <form class="form" data-js="guest-form">
+          <label class="form__field">Nombre completo
+            <input class="form__control" name="full_name" required>
+          </label>
+          <label class="form__field">Email
+            <input class="form__control" type="email" name="email" required>
+          </label>
+          <label class="form__field">Documento
+            <input class="form__control" name="document" required>
+          </label>
+          <button type="submit" class="button">Guardar</button>
         </form>
       </div>
 
-      <div class="box">
-        <h2>Huéspedes</h2>
-        <table>
-          <thead><tr><th>Nombre</th><th>Email</th><th>Documento</th><th></th></tr></thead>
-          <tbody id="guests-body"></tbody>
+      <div class="card page__item">
+        <h2 class="card__title">Huéspedes</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="table__header-cell">Nombre</th>
+              <th class="table__header-cell">Email</th>
+              <th class="table__header-cell">Documento</th>
+              <th class="table__header-cell"></th>
+            </tr>
+          </thead>
+          <tbody data-js="guests-body"></tbody>
         </table>
       </div>
     </section>
   </main>
 
-  <script src="app.js"></script>
+  <script type="module" src="src/main.js"></script>
 </body>
 </html>

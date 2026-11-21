@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 from .models import Guest, Reservation, Room, db
+from .services.pricing import select_pricing_strategy
 
 
 def seed():
@@ -31,8 +32,17 @@ def seed():
         (rooms[5], guests[2], today + timedelta(days=1), today + timedelta(days=2), 2),
     ]
     for room, guest, check_in, check_out, count in reservations:
-        db.session.add(Reservation(
-            room=room, guest=guest, check_in=check_in, check_out=check_out, guests_count=count,
-            status="confirmed", total_price=(check_out - check_in).days * room.price_per_night,
-        ))
+        nights = (check_out - check_in).days
+        total_price = select_pricing_strategy(nights).calculate(nights, room.price_per_night)
+        db.session.add(
+            Reservation(
+                room=room,
+                guest=guest,
+                check_in=check_in,
+                check_out=check_out,
+                guests_count=count,
+                status="confirmed",
+                total_price=total_price,
+            )
+        )
     db.session.commit()

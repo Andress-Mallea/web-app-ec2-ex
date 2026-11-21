@@ -12,7 +12,7 @@ class Reservation(db.Model):
     check_in = db.Column(db.Date, nullable=False)
     check_out = db.Column(db.Date, nullable=False)
     guests_count = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.String(20), nullable=False, default="confirmed")  # confirmed | checked_in | checked_out | cancelled
+    status = db.Column(db.String(20), nullable=False, default="confirmed")  
     total_price = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
 

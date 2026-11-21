@@ -1,0 +1,19 @@
+/* frontend/src/blocks/card/card.css */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  overflow-x: auto;
+}
+
+.card__title {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

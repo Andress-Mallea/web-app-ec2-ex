@@ -1,0 +1,15 @@
+/* frontend/src/blocks/alert/alert.css */
+.alert {
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.alert--success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.alert--error {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}

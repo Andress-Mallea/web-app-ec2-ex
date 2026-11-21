@@ -1,0 +1,21 @@
+/* frontend/src/blocks/tabs/tabs.css */
+.tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.tabs__item {
+  border: 0;
+  padding: 10px 18px;
+  background: transparent;
+  color: var(--color-primary-muted);
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+}
+
+.tabs__item--active {
+  background: var(--color-bg);
+  color: var(--color-primary);
+  font-weight: 600;
+}
