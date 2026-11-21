@@ -1,0 +1,15 @@
+/* frontend/src/blocks/page/page.css */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+/* Mixes: el contenedor decide el espaciado entre vecinos */
+.page__item {
+  margin-bottom: 18px;
+}
+
+.page__alert {
+  margin-bottom: 16px;
+}

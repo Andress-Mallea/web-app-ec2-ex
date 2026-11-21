@@ -1,0 +1,23 @@
+/* frontend/src/blocks/form/form.css */
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.form__control {
+  font: inherit;
+  padding: 7px 9px;
+  border: 1px solid var(--color-border-input);
+  border-radius: 6px;
+  background: var(--color-surface);
+}
